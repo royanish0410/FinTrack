@@ -11,9 +11,6 @@ const envFile =
   process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
 dotenv.config({ path: envFile });
 
-// Connect to MongoDB
-connectDB();
-
 // Initialize express app
 const app: Application = express();
 
@@ -70,25 +67,29 @@ app.use((_req: Request, res: Response) => {
   });
 });
 
-// Error handler middleware (must be last)
+// Error handler (must be last)
 app.use(errorHandler);
 
-// Start server
+// ✅ Start server after successful MongoDB connection
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-});
 
-// Handle unhandled promise rejections
-process.on('unhandledRejection', (err: Error) => {
-  console.error('❌ Unhandled Rejection:', err.message);
-  server.close(() => process.exit(1));
-});
+connectDB()
+  .then(() => {
+    const server = app.listen(PORT, () => {
+      console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+    });
 
-// Handle SIGTERM
-process.on('SIGTERM', () => {
-  console.log('👋 SIGTERM received, shutting down gracefully');
-  server.close(() => {
-    console.log('💤 Process terminated');
+    process.on('unhandledRejection', (err: Error) => {
+      console.error('❌ Unhandled Rejection:', err.message);
+      server.close(() => process.exit(1));
+    });
+
+    process.on('SIGTERM', () => {
+      console.log('👋 SIGTERM received, shutting down gracefully');
+      server.close(() => console.log('💤 Process terminated'));
+    });
+  })
+  .catch((err) => {
+    console.error('❌ Failed to connect to MongoDB:', err);
+    process.exit(1);
   });
-});
