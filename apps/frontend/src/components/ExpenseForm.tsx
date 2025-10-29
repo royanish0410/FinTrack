@@ -23,7 +23,12 @@ const categories: ExpenseCategory[] = [
   'Other',
 ];
 
-export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = false }: ExpenseFormProps) {
+export default function ExpenseForm({
+  onSubmit,
+  onClose,
+  initialData,
+  isEdit = false,
+}: ExpenseFormProps) {
   const [formData, setFormData] = useState<CreateExpenseData>({
     title: initialData?.title || '',
     amount: initialData?.amount || 0,
@@ -35,7 +40,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.amount <= 0) {
       toast.error('Amount must be greater than 0');
       return;
@@ -52,7 +57,9 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -61,18 +68,18 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 animate-fade-in">
-      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto animate-slide-up">
+    <div className="fixed inset-0 bg-gray-800/40 backdrop-blur-md flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-2xl shadow-lg max-w-md w-full max-h-[90vh] overflow-y-auto border border-emerald-200">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b border-slate-200">
-          <h2 className="text-2xl font-bold text-slate-900">
+        <div className="flex justify-between items-center p-6 border-b border-emerald-100 bg-emerald-50">
+          <h2 className="text-2xl font-bold text-emerald-700">
             {isEdit ? 'Edit Expense' : 'Add New Expense'}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-emerald-100 rounded-lg transition-all"
           >
-            <X className="h-5 w-5 text-slate-600" />
+            <X className="h-5 w-5 text-emerald-600" />
           </button>
         </div>
 
@@ -80,7 +87,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="title" className="block text-sm font-semibold text-emerald-700 mb-2">
               Title *
             </label>
             <input
@@ -89,7 +96,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
               type="text"
               value={formData.title}
               onChange={handleChange}
-              className="input-field"
+              className="w-full rounded-lg border border-emerald-200 focus:border-emerald-400 focus:ring-emerald-300 p-2.5 text-gray-800 outline-none transition"
               placeholder="e.g., Grocery Shopping"
               required
             />
@@ -97,11 +104,11 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
 
           {/* Amount */}
           <div>
-            <label htmlFor="amount" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="amount" className="block text-sm font-semibold text-emerald-700 mb-2">
               Amount *
             </label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-semibold">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-emerald-600 font-semibold">
                 ₹
               </span>
               <input
@@ -112,7 +119,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
                 min="0.01"
                 value={formData.amount || ''}
                 onChange={handleChange}
-                className="input-field pl-8"
+                className="w-full rounded-lg border border-emerald-200 focus:border-emerald-400 focus:ring-emerald-300 p-2.5 pl-8 text-gray-800 outline-none transition"
                 placeholder="0.00"
                 required
               />
@@ -121,7 +128,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
 
           {/* Category */}
           <div>
-            <label htmlFor="category" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="category" className="block text-sm font-semibold text-emerald-700 mb-2">
               Category *
             </label>
             <select
@@ -129,7 +136,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="input-field"
+              className="w-full rounded-lg border border-emerald-200 focus:border-emerald-400 focus:ring-emerald-300 p-2.5 text-gray-800 outline-none transition"
               required
             >
               {categories.map((cat) => (
@@ -142,7 +149,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
 
           {/* Date */}
           <div>
-            <label htmlFor="date" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="date" className="block text-sm font-semibold text-emerald-700 mb-2">
               Date *
             </label>
             <input
@@ -151,14 +158,14 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
               type="date"
               value={formData.date}
               onChange={handleChange}
-              className="input-field"
+              className="w-full rounded-lg border border-emerald-200 focus:border-emerald-400 focus:ring-emerald-300 p-2.5 text-gray-800 outline-none transition"
               required
             />
           </div>
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-2">
+            <label htmlFor="description" className="block text-sm font-semibold text-emerald-700 mb-2">
               Description (Optional)
             </label>
             <textarea
@@ -166,7 +173,7 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
               name="description"
               value={formData.description}
               onChange={handleChange}
-              className="input-field resize-none"
+              className="w-full rounded-lg border border-emerald-200 focus:border-emerald-400 focus:ring-emerald-300 p-2.5 text-gray-800 outline-none transition resize-none"
               rows={3}
               placeholder="Add notes about this expense..."
             />
@@ -177,14 +184,14 @@ export default function ExpenseForm({ onSubmit, onClose, initialData, isEdit = f
             <button
               type="button"
               onClick={onClose}
-              className="btn-secondary flex-1"
+              className="w-full py-2.5 rounded-lg border border-emerald-300 text-emerald-700 font-semibold hover:bg-emerald-50 transition"
               disabled={isLoading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="btn-primary flex-1"
+              className="w-full py-2.5 rounded-lg bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition"
               disabled={isLoading}
             >
               {isLoading ? (
