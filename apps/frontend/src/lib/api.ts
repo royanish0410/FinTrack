@@ -1,7 +1,17 @@
 import axios from 'axios';
-import { AuthResponse, ExpenseResponse, CreateExpenseData, ExpenseStats, Expense } from './types';
+import {
+  AuthResponse,
+  ExpenseResponse,
+  CreateExpenseData,
+  ExpenseStats,
+  Expense,
+} from './types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// Dynamically detect backend URL based on environment
+const API_URL =
+  process.env.NODE_ENV === 'production'
+    ? process.env.NEXT_PUBLIC_API_URL || 'https://fintrack-ziby.onrender.com'
+    : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -19,18 +29,13 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Add response interceptor for better error handling
 api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+  (response) => response,
   (error) => {
-    // Log the error for debugging
     console.error('API Error:', {
       url: error.config?.url,
       method: error.config?.method,
@@ -39,16 +44,16 @@ api.interceptors.response.use(
       data: error.response?.data,
     });
 
-    // Handle 401 errors (unauthorized)
+    // Handle 401 (unauthorized)
     if (error.response?.status === 401) {
-      // Clear invalid token
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      
-      // Only redirect if not already on auth pages
-      if (typeof window !== 'undefined' && 
-          !window.location.pathname.includes('/login') && 
-          !window.location.pathname.includes('/register')) {
+
+      if (
+        typeof window !== 'undefined' &&
+        !window.location.pathname.includes('/login') &&
+        !window.location.pathname.includes('/register')
+      ) {
         window.location.href = '/login';
       }
     }
@@ -57,10 +62,18 @@ api.interceptors.response.use(
   }
 );
 
-// Auth APIs
+// ---------- Auth APIs ----------
 export const authAPI = {
-  register: async (name: string, email: string, password: string): Promise<AuthResponse> => {
-    const response = await api.post('/api/auth/register', { name, email, password });
+  register: async (
+    name: string,
+    email: string,
+    password: string
+  ): Promise<AuthResponse> => {
+    const response = await api.post('/api/auth/register', {
+      name,
+      email,
+      password,
+    });
     return response.data;
   },
 
@@ -80,7 +93,7 @@ export const authAPI = {
   },
 };
 
-// Expense APIs
+// ---------- Expense APIs ----------
 export const expenseAPI = {
   getAll: async (filters?: {
     category?: string;
@@ -97,12 +110,17 @@ export const expenseAPI = {
     return response.data;
   },
 
-  create: async (data: CreateExpenseData): Promise<{ success: boolean; data: Expense }> => {
+  create: async (
+    data: CreateExpenseData
+  ): Promise<{ success: boolean; data: Expense }> => {
     const response = await api.post('/api/expenses', data);
     return response.data;
   },
 
-  update: async (id: string, data: CreateExpenseData): Promise<{ success: boolean; data: Expense }> => {
+  update: async (
+    id: string,
+    data: CreateExpenseData
+  ): Promise<{ success: boolean; data: Expense }> => {
     const response = await api.put(`/api/expenses/${id}`, data);
     return response.data;
   },
