@@ -6,10 +6,12 @@ import errorHandler from './middleware/errorHandler';
 import authRoutes from './routes/authRoutes';
 import expenseRoutes from './routes/expenseRoutes';
 
-// Load environment variables
-dotenv.config();
+// Load environment variables based on environment
+const envFile =
+  process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
+dotenv.config({ path: envFile });
 
-// Connect to database
+// Connect to MongoDB
 connectDB();
 
 // Initialize express app
@@ -19,10 +21,15 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CORS configuration
+// ✅ Dynamic CORS setup for local + production
+const allowedOrigin =
+  process.env.NODE_ENV === 'production'
+    ? process.env.CLIENT_URL || 'https://fin-track-frontend-mu.vercel.app'
+    : 'http://localhost:3000';
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: allowedOrigin,
     credentials: true,
   })
 );
@@ -36,6 +43,7 @@ app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Server is running',
+    environment: process.env.NODE_ENV,
     timestamp: new Date().toISOString(),
   });
 });
@@ -46,6 +54,7 @@ app.get('/', (_req: Request, res: Response) => {
     success: true,
     message: 'Expense Tracker API',
     version: '1.0.0',
+    environment: process.env.NODE_ENV,
     endpoints: {
       auth: '/api/auth',
       expenses: '/api/expenses',
