@@ -1,5 +1,4 @@
-
-Workspace: # FinTrack - Personal Expense Tracker
+ # FinTrack - Personal Expense Tracker
 
 A modern, full-stack expense tracking application built with Next.js, Express, and MongoDB. Track your expenses, visualize spending patterns, and manage your finances with ease.
 
@@ -167,7 +166,7 @@ PORT=5000
 MONGODB_URI=your_production_mongodb_uri
 JWT_SECRET=your_production_jwt_secret
 JWT_EXPIRE=7d
-CLIENT_URL=https://your-production-frontend-url.com
+CLIENT_URL=https://fin-track-frontend-mu.vercel.app/    
 ```
 
 ### Frontend Environment Variables
@@ -190,7 +189,7 @@ frontend
  for production:
 
 ```env
-NEXT_PUBLIC_API_URL=https://your-production-backend-url.com
+NEXT_PUBLIC_API_URL=https://fintrack-ziby.onrender.com
 ```
 
 ## 🏃 Running the Application
@@ -222,8 +221,8 @@ npm run dev
 
 ### Access the Application
 
-- **Frontend:** [http://localhost:3000](http://localhost:3000)
-- **Backend API:** [http://localhost:5000](http://localhost:5000)
+- **Frontend:** [http://localhost:3000](https://fin-track-frontend-mu.vercel.app/)
+- **Backend API:** [http://localhost:5000](https://fintrack-ziby.onrender.com)
 - **API Health Check:** [http://localhost:5000/health](http://localhost:5000/health)
 
 ### Production Build
@@ -284,7 +283,7 @@ npm run type-check  # Type check without emitting files
 
 ### Base URL
 - Development: `http://localhost:5000`
-- Production: `https://your-backend-url.com`
+- Production: 'https://fintrack-ziby.onrender.com'
 
 ### Authentication Endpoints
 
@@ -476,17 +475,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 👥 Authors
 
-- **Your Name** - [GitHub Profile](https://github.com/yourusername)
-
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) - React framework
-- [Express.js](https://expressjs.com/) - Backend framework
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Turborepo](https://turborepo.org/) - Monorepo tool
-- [shadcn/ui](https://ui.shadcn.com/) - UI components
-- [Tailwind CSS](https://tailwindcss.com/) - CSS framework
-
----
-
-**Made with ❤️ by FinTrack Team**
+- **Anish Anand** - [GitHub Profile](https://github.com/royanish0410)
