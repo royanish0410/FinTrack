@@ -36,7 +36,7 @@ export default function Home() {
       <nav className="container mx-auto px-6 py-6 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="p-3 bg-linear-to-br from-emerald-500 to-teal-500 rounded-xl">
-            <Wallet className="h-6 w-6 text-white" />
+            <Wallet className="h-4 w-4 text-white" />
           </div>
           <span className="text-2xl font-bold bg-linear-to-r from-emerald-500 to-teal-500 bg-clip-text text-transparent">
             FinTrack
@@ -56,7 +56,7 @@ export default function Home() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="btn-primary px-6 py-2 text-white font-semibold rounded-lg shadow-md bg-linear-to-r from-emerald-500 to-teal-500 hover:opacity-90"
+              className="btn-primary px-2 py-2 text-white font-semibold rounded-lg shadow-md bg-linear-to-r from-emerald-500 to-teal-500 hover:opacity-90"
             >
               Get Started
             </motion.button>

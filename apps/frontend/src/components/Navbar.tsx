@@ -28,7 +28,7 @@ FinTrack </span>
           whileHover={{ scale: 1.05 }}
           className="flex items-center space-x-2 px-4 py-2 bg-gray-50 rounded-lg shadow-sm"
         >
-          <User className="h-5 w-5 text-gray-600" />
+          <User className="h-2 w-2 text-gray-600" />
           <span className="text-sm font-medium text-gray-700">{user?.name}</span>
         </motion.div>
         <motion.button
@@ -37,7 +37,7 @@ FinTrack </span>
           onClick={logout}
           className="flex items-center space-x-2 px-4 py-2 text-red-600 rounded-lg font-medium transition-all"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-3 w-3" />
           <span>Logout</span>
         </motion.button>
       </div>

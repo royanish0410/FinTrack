@@ -1,3 +1,5 @@
+'use client';
+
 import { Expense } from '@/lib/types';
 import { Edit2, Trash2, Calendar, Tag } from 'lucide-react';
 import { format } from 'date-fns';
@@ -23,45 +25,55 @@ export default function ExpenseCard({ expense, onEdit, onDelete }: ExpenseCardPr
   const colors = categoryColors[expense.category] || categoryColors.Other;
 
   return (
-    <div className="card hover:scale-[1.02] transition-transform">
-      <div className="flex justify-between items-start mb-3">
-        <div className="flex-1">
-          <h3 className="text-lg font-bold text-slate-900 mb-1">{expense.title}</h3>
-          <p className="text-2xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+    <div className="card hover:scale-[1.02] transition-transform p-4 sm:p-6 rounded-2xl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 mb-3">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-1 truncate">
+            {expense.title}
+          </h3>
+          <p className="text-xl sm:text-2xl font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
             ₹{expense.amount.toFixed(2)}
           </p>
         </div>
-        <div className="flex space-x-2">
+
+        {/* Action Buttons */}
+        <div className="flex items-center sm:space-x-2 gap-2 sm:gap-0 self-end sm:self-start">
           <button
             onClick={() => onEdit(expense)}
-            className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
+            className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors active:scale-95"
+            aria-label="Edit expense"
           >
-            <Edit2 className="h-4 w-4" />
+            <Edit2 className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
           <button
             onClick={() => onDelete(expense._id)}
-            className="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-colors"
+            className="p-2 hover:bg-red-50 text-red-600 rounded-lg transition-colors active:scale-95"
+            aria-label="Delete expense"
           >
-            <Trash2 className="h-4 w-4" />
+            <Trash2 className="h-4 w-4 sm:h-5 sm:w-5" />
           </button>
         </div>
       </div>
 
+      {/* Details */}
       <div className="space-y-2">
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <Tag className="h-4 w-4 text-slate-400" />
-          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${colors.bg} ${colors.text} border ${colors.border}`}>
+          <span
+            className={`px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${colors.bg} ${colors.text} border ${colors.border}`}
+          >
             {expense.category}
           </span>
         </div>
 
-        <div className="flex items-center space-x-2 text-sm text-slate-600">
+        <div className="flex items-center space-x-2 text-xs sm:text-sm text-slate-600">
           <Calendar className="h-4 w-4" />
           <span>{format(new Date(expense.date), 'MMM dd, yyyy')}</span>
         </div>
 
         {expense.description && (
-          <p className="text-sm text-slate-600 mt-2 line-clamp-2">
+          <p className="text-sm text-slate-600 mt-2 line-clamp-2 sm:line-clamp-3">
             {expense.description}
           </p>
         )}

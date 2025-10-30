@@ -144,17 +144,20 @@ export default function DashboardPage() {
         <Navbar />
 
         <motion.div
-          className="container mx-auto px-4 py-8"
+          className="container mx-auto px-4 py-6 sm:py-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+          {/* Header Section */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 mb-1">
                 Expense Dashboard
               </h1>
-              <p className="text-gray-600">Track and visualize your spending smarter ✨</p>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Track and visualize your spending smarter ✨
+              </p>
             </div>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -163,7 +166,7 @@ export default function DashboardPage() {
                 setEditingExpense(null);
                 setShowForm(true);
               }}
-              className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-lg shadow-md transition-all"
+              className="flex items-center justify-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-5 py-2.5 sm:py-3 rounded-lg shadow-md w-full sm:w-auto"
             >
               <Plus className="h-5 w-5" />
               <span>Add Expense</span>
@@ -171,7 +174,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
             <StatCard
               title="Total Expenses"
               value={`₹${total.toFixed(2)}`}
@@ -209,7 +212,7 @@ export default function DashboardPage() {
 
           {/* Filters */}
           <motion.div
-            className="card mb-6"
+            className="bg-white rounded-2xl shadow-sm p-4 sm:p-6 mb-6 border border-emerald-100"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -219,8 +222,7 @@ export default function DashboardPage() {
               <h3 className="text-lg font-bold text-gray-800">Filters</h3>
             </div>
 
-            {/* Inputs */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
@@ -228,14 +230,14 @@ export default function DashboardPage() {
                   placeholder="Search expenses..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input-field pl-10"
+                  className="w-full border border-emerald-200 rounded-lg p-2.5 pl-10 focus:ring-emerald-300 focus:border-emerald-400 outline-none"
                 />
               </div>
 
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="input-field"
+                className="w-full border border-emerald-200 rounded-lg p-2.5 focus:ring-emerald-300 focus:border-emerald-400 outline-none"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -246,27 +248,27 @@ export default function DashboardPage() {
                 type="date"
                 value={dateFilter.startDate}
                 onChange={(e) => setDateFilter({ ...dateFilter, startDate: e.target.value })}
-                className="input-field"
+                className="w-full border border-emerald-200 rounded-lg p-2.5 focus:ring-emerald-300 focus:border-emerald-400 outline-none"
               />
 
               <input
                 type="date"
                 value={dateFilter.endDate}
                 onChange={(e) => setDateFilter({ ...dateFilter, endDate: e.target.value })}
-                className="input-field"
+                className="w-full border border-emerald-200 rounded-lg p-2.5 focus:ring-emerald-300 focus:border-emerald-400 outline-none"
               />
             </div>
 
-            <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-4 pt-4 border-t border-gray-200 gap-3">
               <p className="text-sm text-gray-600">
-                Showing {filteredExpenses.length} of {expenses.length} expenses
+                Showing {filteredExpenses.length} of {expenses.length} expenses{' '}
                 {filteredExpenses.length > 0 && (
-                  <span className="font-semibold text-gray-800 ml-2">
+                  <span className="font-semibold text-gray-800 ml-1">
                     (Total: ₹{filteredTotal.toFixed(2)})
                   </span>
                 )}
               </p>
-              <div className="flex space-x-2">
+              <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => {
                     setSelectedCategory('All');
@@ -296,15 +298,15 @@ export default function DashboardPage() {
             </div>
           ) : filteredExpenses.length === 0 ? (
             <motion.div
-              className="card text-center py-12"
+              className="bg-white rounded-2xl shadow-sm text-center p-8 border border-emerald-100"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
               <div className="inline-block p-4 bg-gray-100 rounded-full mb-4">
                 <Wallet className="h-12 w-12 text-gray-400" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">No Expenses Found</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-2">No Expenses Found</h3>
+              <p className="text-gray-600 text-sm sm:text-base mb-6">
                 {expenses.length === 0
                   ? 'Start tracking your expenses by adding your first one!'
                   : 'No expenses match your current filters.'}
@@ -321,7 +323,7 @@ export default function DashboardPage() {
             </motion.div>
           ) : (
             <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
               initial="hidden"
               animate="visible"
               variants={{
